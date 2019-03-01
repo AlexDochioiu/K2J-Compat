@@ -57,6 +57,24 @@ public class K2JCompat {
             return this;
         }
 
+        @NonNull
+        public final K2JWrapper<T> takeUnless(@NonNull final ITake<T> iTake) {
+            if (requireNonNull(iTake).doTake(wrappedObject)) {
+                return new K2JWrapper<>(null);
+            } else {
+                return this;
+            }
+        }
+
+        @NonNull
+        public final K2JWrapper<T> takeIf(@NonNull final ITake<T> iTake) {
+            if (requireNonNull(iTake).doTake(wrappedObject)) {
+                return this;
+            } else {
+                return new K2JWrapper<>(null);
+            }
+        }
+
         public final T unwrap() {
             return wrappedObject;
         }
@@ -68,5 +86,9 @@ public class K2JCompat {
 
     public interface IAlso<T> {
         void doAlso(T object);
+    }
+
+    public interface ITake<T> {
+        boolean doTake(T object);
     }
 }
