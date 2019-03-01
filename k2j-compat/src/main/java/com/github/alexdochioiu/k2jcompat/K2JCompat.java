@@ -1,13 +1,26 @@
+/*
+ * Copyright 2019 Alexandru Iustin Dochioiu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.alexdochioiu.k2jcompat;
-
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import static com.github.alexdochioiu.k2jcompat.Utils.requireNonNull;
 
 /**
  * Created by Alexandru Iustin Dochioiu on 01-Mar-19
  */
+@SuppressWarnings("unused")
 public class K2JCompat {
 
     public static <T> K2JWrapper<T> take(T object) {
@@ -15,22 +28,19 @@ public class K2JCompat {
     }
 
     public static final class K2JWrapper<T>{
-        @Nullable
         private final T wrappedObject;
 
-        private K2JWrapper(@Nullable final T wrappedObject) {
+        private K2JWrapper(final T wrappedObject) {
             this.wrappedObject = wrappedObject;
         }
 
-        @NonNull
-        public final <Y> K2JWrapper<Y> let(@NonNull final ILet<T, Y> iLet) {
+        public final <Y> K2JWrapper<Y> let(final ILet<T, Y> iLet) {
             final Y wrapped = requireNonNull(iLet).doLet(wrappedObject);;
 
             return new K2JWrapper<>(wrapped);
         }
 
-        @NonNull
-        public final <Y> K2JWrapper<Y> _let(@NonNull final ILet<T, Y> iLet) {
+        public final <Y> K2JWrapper<Y> _let(final ILet<T, Y> iLet) {
             final Y wrapped;
             if (wrappedObject != null) {
                 wrapped = requireNonNull(iLet).doLet(wrappedObject);
@@ -41,15 +51,13 @@ public class K2JCompat {
             return new K2JWrapper<>(wrapped);
         }
 
-        @NonNull
-        public final K2JWrapper<T> also(@NonNull final IAlso<T> iAlso) {
+        public final K2JWrapper<T> also(final IAlso<T> iAlso) {
             requireNonNull(iAlso).doAlso(wrappedObject);
 
             return this;
         }
 
-        @NonNull
-        public final K2JWrapper<T> _also(@NonNull final IAlso<T> iAlso) {
+        public final K2JWrapper<T> _also(final IAlso<T> iAlso) {
             if (wrappedObject != null) {
                 requireNonNull(iAlso).doAlso(wrappedObject);
             }
@@ -57,8 +65,7 @@ public class K2JCompat {
             return this;
         }
 
-        @NonNull
-        public final K2JWrapper<T> takeUnless(@NonNull final ITake<T> iTake) {
+        public final K2JWrapper<T> takeUnless(final ITake<T> iTake) {
             if (requireNonNull(iTake).doTake(wrappedObject)) {
                 return new K2JWrapper<>(null);
             } else {
@@ -66,8 +73,7 @@ public class K2JCompat {
             }
         }
 
-        @NonNull
-        public final K2JWrapper<T> takeIf(@NonNull final ITake<T> iTake) {
+        public final K2JWrapper<T> takeIf(final ITake<T> iTake) {
             if (requireNonNull(iTake).doTake(wrappedObject)) {
                 return this;
             } else {
