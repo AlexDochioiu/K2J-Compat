@@ -20,7 +20,7 @@ import static com.github.alexdochioiu.k2jcompat.Utils.requireNonNull;
 /**
  * Created by Alexandru Iustin Dochioiu on 01-Mar-19
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class K2JCompat {
 
     public static <T> K2JWrapper<T> take(T object) {
@@ -35,7 +35,7 @@ public class K2JCompat {
         }
 
         public final <Y> K2JWrapper<Y> let(final ILet<T, Y> iLet) {
-            final Y wrapped = requireNonNull(iLet).doLet(wrappedObject);;
+            final Y wrapped = requireNonNull(iLet).doLet(wrappedObject);
 
             return new K2JWrapper<>(wrapped);
         }
@@ -73,9 +73,33 @@ public class K2JCompat {
             }
         }
 
+        public final K2JWrapper<T> _takeUnless(final ITake<T> iTake) {
+            if (wrappedObject != null) {
+                if (requireNonNull(iTake).doTake(wrappedObject)) {
+                    return new K2JWrapper<>(null);
+                } else {
+                    return this;
+                }
+            } else {
+                return new K2JWrapper<>(null);
+            }
+        }
+
         public final K2JWrapper<T> takeIf(final ITake<T> iTake) {
             if (requireNonNull(iTake).doTake(wrappedObject)) {
                 return this;
+            } else {
+                return new K2JWrapper<>(null);
+            }
+        }
+
+        public final K2JWrapper<T> _takeIf(final ITake<T> iTake) {
+            if (wrappedObject != null) {
+                if (requireNonNull(iTake).doTake(wrappedObject)) {
+                    return this;
+                } else {
+                    return new K2JWrapper<>(null);
+                }
             } else {
                 return new K2JWrapper<>(null);
             }
