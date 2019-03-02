@@ -20,7 +20,7 @@ ext {
     issuesUrl = 'https://github.com/AlexDochioiu/K2J-Compat/issues'
     gitUrl = 'https://github.com/AlexDochioiu/K2J-Compat.git'
     libLabels = ['Android', 'JeeFo', 'AlexDochioiu', "Kotlin", "Java", "Compat", "let", "also", "takeUnless", "takeIf"]
-    libraryVersion = "1.0.0"
+    libraryVersion = "1.0.1"
     developerId = 'jeefo'
     developerName = 'AlexDochioiu'
     developerEmail = 'dochioiu.alex@gmail.com'
